@@ -31,13 +31,43 @@ namespace Algo
 
         public double SimilarityPearson( User u1, User u2 )
         {
-            // This should call the "real" one below.
-            throw new NotImplementedException();
+            List<(int, int)> ratings = new List<(int, int)>();
+
+            foreach( var movieR1 in u1.Ratings )
+            {
+                if( u2.Ratings.TryGetValue( movieR1.Key, out var r2 ) )
+                {
+                    ratings.Add( (movieR1.Value, r2) );
+                }
+            }
+
+            return SimilarityPearson( ratings );
         }
 
         public double SimilarityPearson( IEnumerable<(int x, int y)> values )
         {
-            throw new NotImplementedException();
+            int n = values.Count();
+
+            int Zxy = 0;
+
+            int Zx = 0;
+
+            int Zy = 0;
+
+            foreach( (int x, int y) rates in values )
+            {
+                Zxy += rates.x * rates.y;
+                Zx += rates.x;
+                Zy += rates.y;
+            }
+
+            double tempUp        =            (n * Zxy )   - (Zx * Zy);
+            double tempDownLeft  = Math.Sqrt( (n * Zx ^ 2) - (Zx ^ 2) ) ;
+            double tempDownRight = Math.Sqrt( (n * Zy ^ 2) - (Zy ^ 2) );
+
+            double r = tempUp / (tempDownLeft * tempDownRight);
+
+            return r;
         }
 
         public bool LoadFrom( string folder )
