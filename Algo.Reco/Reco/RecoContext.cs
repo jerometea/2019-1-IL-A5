@@ -31,6 +31,12 @@ namespace Algo
 
         public double SimilarityPearson( User u1, User u2 )
         {
+            // This should call the "real" one below.
+            throw new NotImplementedException();
+        }
+
+        public double SimilarityPearson( IEnumerable<(int x, int y)> values )
+        {
             throw new NotImplementedException();
         }
 
